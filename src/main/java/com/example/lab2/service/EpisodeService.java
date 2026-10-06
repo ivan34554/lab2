@@ -17,13 +17,15 @@ public class EpisodeService {
     private final EpisodeRepository episodes;
     private final PodcastRepository podcasts;
     private final AudioFileService audioFiles;
+    private final PublicationSlotService slots;
     private final Clock clock;
 
     public EpisodeService(EpisodeRepository episodes, PodcastRepository podcasts,
-                          AudioFileService audioFiles, Clock clock) {
+                          AudioFileService audioFiles, PublicationSlotService slots, Clock clock) {
         this.episodes = episodes;
         this.podcasts = podcasts;
         this.audioFiles = audioFiles;
+        this.slots = slots;
         this.clock = clock;
     }
 
@@ -60,6 +62,7 @@ public class EpisodeService {
     public void delete(Long id) {
         findById(id);
         audioFiles.deleteByEpisodeId(id);
+        slots.deleteByEpisodeId(id);
         episodes.deleteById(id);
     }
 
