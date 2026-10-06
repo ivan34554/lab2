@@ -12,10 +12,12 @@ import com.example.lab2.repository.UserRepository;
 public class UserService {
 
     private final UserRepository users;
+    private final PodcastService podcasts;
     private final Clock clock;
 
-    public UserService(UserRepository users, Clock clock) {
+    public UserService(UserRepository users, PodcastService podcasts, Clock clock) {
         this.users = users;
+        this.podcasts = podcasts;
         this.clock = clock;
     }
 
@@ -45,6 +47,7 @@ public class UserService {
 
     public void delete(Long id) {
         findById(id);
+        podcasts.deleteByAuthorId(id);
         users.deleteById(id);
     }
 }
